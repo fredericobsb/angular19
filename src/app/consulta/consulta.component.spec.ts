@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { ConsultaComponent } from './consulta.component';
 
 describe('ConsultaComponent', () => {
@@ -8,7 +8,10 @@ describe('ConsultaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConsultaComponent]
+      imports: [ConsultaComponent],
+      providers: [
+              provideAnimations(),
+            ]
     })
     .compileComponents();
 
