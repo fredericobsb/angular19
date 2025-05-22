@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-//import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { CadastroComponent } from './cadastro.component';
 
@@ -10,9 +10,9 @@ describe('CadastroComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CadastroComponent],
-      // providers: [
-     //   provideAnimations()
-    //]
+       providers: [
+        provideAnimations()
+      ]
     })
     .compileComponents();
 
