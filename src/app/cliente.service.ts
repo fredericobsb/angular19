@@ -28,5 +28,26 @@ export class ClienteService {
     return listaClientes;
   }
 
+  pesquisarClientes(nomeBusca:string) : Cliente[]{
+    const listaClientes = this.obterStorage();
+    if(!nomeBusca){
+      return listaClientes;
+    }
+    return listaClientes.filter(cliente => cliente.nome?.indexOf(nomeBusca) !== -1);
+  }
 
+  buscarClientePorId(id:string): Cliente | undefined {
+    const listaClientes = this.obterStorage();
+    return listaClientes.find(cliente => cliente.id === id);
+  }
+
+   atualizar(cliente: Cliente){
+     const storage = this.obterStorage();
+     storage.forEach(c => {
+      if(c.id === cliente.id){
+        Object.assign(c, cliente);
+      }
+     })
+     localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
+  }
 }
