@@ -50,4 +50,14 @@ export class ClienteService {
      })
      localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
   }
+
+  deletar(cliente: Cliente){
+    const storage = this.obterStorage();
+    const novaLista = storage.filter(c => c.id !== cliente.id);
+    const indexItemASerDeletado = storage.indexOf(cliente);
+    if(indexItemASerDeletado > -1){
+      storage.splice(indexItemASerDeletado, 1);
+    }
+    localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(novaLista));
+  }
 }

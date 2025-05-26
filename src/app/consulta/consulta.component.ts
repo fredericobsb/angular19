@@ -30,6 +30,7 @@ export class ConsultaComponent {
   nomeBusca!: string;
   columnsTable:string[] = ["id","nome","cpf","dataNascimento", "email", "acoes"];
 
+
   constructor(private clienteService: ClienteService,
               private router: Router
   ){}
@@ -45,6 +46,15 @@ export class ConsultaComponent {
 
   preparaEditar(id:string){
     this.router.navigate(['/cadastro'], {queryParams: {"id": id}});
+  }
+
+  preparaDeletar(cliente: Cliente){
+    cliente.deletando = true;
+  }
+
+  deletar(cliente: Cliente){
+    this.clienteService.deletar(cliente);
+    this.listaClientes = this.clienteService.pesquisarClientes('');
   }
 
 }
