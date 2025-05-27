@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
 import {FormsModule} from '@angular/forms';
@@ -9,7 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { Cliente } from './cliente';
 import { ClienteService } from '../cliente.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { NgxMaskDirective, provideNgxMask} from 'ngx-mask';
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cadastro',
@@ -19,7 +20,12 @@ import { ActivatedRoute, Router } from '@angular/router';
             MatFormFieldModule, 
             MatInputModule, 
             MatIconModule,
-            MatButtonModule],
+            MatButtonModule,
+            NgxMaskDirective
+          ],
+  providers: [
+    provideNgxMask()
+  ],
 
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.scss'
@@ -27,13 +33,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CadastroComponent {
 
   atualizando: Boolean = false;
+  snack: MatSnackBar = inject(MatSnackBar)
 
   constructor(private clienteService: ClienteService,
               private route: ActivatedRoute
   ){}
 
   ngOnInit(){
-   this.route.queryParamMap.subscribe((query:any) =>{
+    this.route.queryParamMap.subscribe((query:any) =>{
       const parametros = query['params'];
       const id = parametros['id'];
       if(id){
@@ -44,7 +51,7 @@ export class CadastroComponent {
             this.cliente = clienteEncontrado;
         }
       }
-   })
+    })
   }
 
   cliente: Cliente = Cliente.newCliente();
@@ -52,11 +59,16 @@ export class CadastroComponent {
   salvar(){
     if(!this.atualizando){
       this.clienteService.salvar(this.cliente);
+      this.mostrarMensagemAoUsuario("Usuario salvo com sucesso!");
       this.cliente = Cliente.newCliente();
     } else {
       this.clienteService.atualizar(this.cliente);
+       this.mostrarMensagemAoUsuario("Usuario atualizado com sucesso!");
     }
   }
 
+  mostrarMensagemAoUsuario(mensagem: string){
+    this.snack.open(mensagem, "OK");
+  }
  
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ClienteService } from '../cliente.service';
 import { Cliente } from '../cadastro/cliente';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-consulta',
@@ -29,6 +30,7 @@ export class ConsultaComponent {
   listaClientes: Cliente[] = [];
   nomeBusca!: string;
   columnsTable:string[] = ["id","nome","cpf","dataNascimento", "email", "acoes"];
+  snack: MatSnackBar = inject(MatSnackBar)
 
 
   constructor(private clienteService: ClienteService,
@@ -54,6 +56,7 @@ export class ConsultaComponent {
 
   deletar(cliente: Cliente){
     this.clienteService.deletar(cliente);
+    this.snack.open("Usuário deletado com sucesso!", "OK");
     this.listaClientes = this.clienteService.pesquisarClientes('');
   }
 
